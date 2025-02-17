@@ -1,10 +1,12 @@
 /* (C)2025 */
 package com.zebrastore;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.time.Instant;
@@ -12,7 +14,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Entity
 @Table(indexes = {@Index(name = "isbn13_index", columnList = "isbn13")})
-public class Book extends PanacheEntity {
+public class Book extends PanacheEntityBase {
+    @Id
+    @GeneratedValue(generator = "book_id_seq")
+    public Long id;
+
     @JsonbProperty("isbn_13")
     @Schema(required = true)
     public String isbn13;

@@ -3,11 +3,14 @@ package com.zebrastore;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.io.FileNotFoundException;
 import java.time.Instant;
+import java.util.Set;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -20,7 +23,7 @@ import org.jboss.logging.Logger;
 public class BookResource {
 
     @RestClient IsbnServiceProxy isbnServiceProxy;
-
+    @Inject Validator validator;
     @Inject Logger logger;
 
     @Inject BookService bookService;
@@ -59,6 +62,15 @@ public class BookResource {
         book.yearOfPublication = yearOfPublication;
         book.genre = genre;
         book.creationDate = Instant.now();
+
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        if (!violations.isEmpty()) {
+            logger.warn(violations);
+            ViolationResult<Book> violationResult = new ViolationResult<>();
+            violationResult.setViolation(violations);
+            return Response.status(400).entity(violationResult).build();
+        }
+
         bookService.saveToDB(book);
         return Response.status(201).entity(book).build();
     }

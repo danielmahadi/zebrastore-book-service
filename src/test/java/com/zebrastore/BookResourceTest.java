@@ -13,16 +13,12 @@ public class BookResourceTest {
 
     @Test
     public void shouldGetAllBooks() {
-        given().when()
-            .get("/api/books")
-            .then().statusCode(200);
+        given().when().get("/api/books").then().statusCode(200);
     }
 
     @Test
     public void shouldGetOneBook() {
-        given()
-            .when().get("/api/books/13-1-23-456789-7")
-            .then().statusCode(200);
+        given().when().get("/api/books/13-1-23-456789-7").then().statusCode(200);
     }
 
     @Test

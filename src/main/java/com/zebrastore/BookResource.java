@@ -25,6 +25,21 @@ public class BookResource {
 
     @Inject BookService bookService;
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get all books")
+    public Response getBooks() {
+        return Response.ok(bookService.getAllBooks()).build();
+    }
+
+    @GET
+    @Path("/{isbn}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Get a book by ISBN 13")
+    public Response getBookByIsbn(@PathParam("isbn") String isbn) {
+        return Response.ok(bookService.getBookByIsbn13(isbn)).build();
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

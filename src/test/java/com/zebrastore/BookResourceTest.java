@@ -5,7 +5,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
-import io.quarkus.panache.mock.PanacheMock;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +13,6 @@ public class BookResourceTest {
 
     @Test
     public void shouldCreateABook() {
-        PanacheMock.mock(Book.class);
-
         given().formParam("title", "Adult Coloring Book: 40 Purrtastic Cats")
                 .formParam("author", "Coloringcraze")
                 .formParam("year", 2017)

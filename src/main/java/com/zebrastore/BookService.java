@@ -32,4 +32,12 @@ public class BookService {
             out.println(bookJson);
         }
     }
+
+    public Object getAllBooks() {
+        return Book.listAll();
+    }
+
+    public Object getBookByIsbn13(String isbn13) {
+        return Book.find("isbn13", isbn13).firstResult();
+    }
 }

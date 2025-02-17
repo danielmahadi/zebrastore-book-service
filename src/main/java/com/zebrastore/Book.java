@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import java.time.Instant;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -20,10 +21,12 @@ public class Book extends PanacheEntityBase {
     public Long id;
 
     @JsonbProperty("isbn_13")
+    @NotBlank(message = "ISBN_EMPTY")
     @Schema(required = true)
     public String isbn13;
 
     @Schema(required = true)
+    @NotBlank(message = "TITLE_EMPTY")
     public String title;
 
     public String author;

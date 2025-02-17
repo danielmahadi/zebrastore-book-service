@@ -35,6 +35,8 @@ jobs:
           distribution: temurin
           java-version-file: .java-version
 
+      - run: ./mvnw spotless:check
+
       - run: ./mvnw package
 
       - name: Log in to the Container registry

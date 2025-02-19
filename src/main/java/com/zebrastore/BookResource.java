@@ -1,7 +1,6 @@
 /* (C)2025 */
 package com.zebrastore;
 
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.ws.rs.*;
@@ -22,8 +21,13 @@ import org.jboss.logging.Logger;
 public class BookResource {
     @RestClient IsbnServiceProxy isbnServiceProxy;
 
-    @Inject Logger logger;
-    @Inject BookService bookService;
+    Logger logger;
+    BookService bookService;
+
+    public BookResource(Logger logger, BookService bookService) {
+        this.logger = logger;
+        this.bookService = bookService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
